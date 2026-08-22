@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{
+  dark: localStorage.getItem('theme')==='dark' ||
+        (!localStorage.getItem('theme') &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches),
+  scrolled:false,
+  mobileMenu:false
+}" :class="{'dark':dark}" x-init="
+  $watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));
+  window.addEventListener('scroll',()=>scrolled=window.scrollY>20,{passive:true})
+" class="scroll-smooth">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description"
+    content="Java Development, Spring Boot, JDBC, MySQL and Full Stack Development blog by Aniket Kalapure.">
+
+  <title>Aniket Kalapure — Blog Article</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap"
+    rel="stylesheet">
+
+  <script>
+
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['PT Sans', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif']
+          },
+          colors: {
+            accent: '#FF6B2B',
+            'accent-light': '#FF8F5C'
+          }
+        }
+      }
+    }
+
+  </script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'PT Sans', sans-serif;
+    }
+
+    body {
+      transition: background-color .3s, color .3s;
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: currentColor;
+      transition: width .25s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+
+    [x-cloak] {
+      display: none !important;
+    }
+
+    .article-content h2 {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-top: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .article-content h3 {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #FF6B2B;
+      margin-top: 2rem;
+      margin-bottom: .7rem;
+    }
+
+    .article-content p {
+      color: #52525b;
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+    }
+
+    .dark .article-content p {
+      color: #a1a1aa;
+    }
+
+    .article-content ul {
+      margin: 1rem 0 1.5rem 1.5rem;
+      list-style: disc;
+    }
+
+    .article-content li {
+      color: #52525b;
+      margin-bottom: .6rem;
+      line-height: 1.7;
+    }
+
+    .dark .article-content li {
+      color: #a1a1aa;
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid #FF6B2B;
+      background: #fff7f4;
+      padding: 1rem 1.4rem;
+      margin: 2rem 0;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .dark .article-content blockquote {
+      background: #27272a;
+    }
+
+    .article-image {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    @media(max-width:768px) {
+
+      .article-image {
+        height: 250px;
+      }
+
+    }
+  </style>
+
+</head>
+
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
+
+
+  <!-- NAVIGATION -->
+
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="scrolled
+? 'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm'
+: 'bg-transparent'">
+
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <a href="index.html" class="font-display font-bold text-xl tracking-tight">
+
+        <span class="text-zinc-900 dark:text-white">
+          Aniket
+        </span>
+
+        <span class="text-accent">
+          Kalapure
+        </span>
+
+      </a>
+
+
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+
+        <li>
+          <a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400">
+            Services
+          </a>
+        </li>
+
+        <li>
+          <a href="projects.html" class="nav-link text-zinc-600 dark:text-zinc-400">
+            Work
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400">
+            About
+          </a>
+        </li>
+
+        <li>
+          <a href="blog.html" class="nav-link text-accent">
+            Blog
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html#contact" class="nav-link text-zinc-600 dark:text-zinc-400">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+
+
+      <div class="flex items-center gap-3">
+
+        <button @click="dark=!dark"
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800">
+
+          <span x-show="!dark">🌙</span>
+          <span x-show="dark">☀️</span>
+
+        </button>
+
+
+        <a href="index.html#contact" class="hidden md:inline-flex bg-accent text-white px-5 py-2 rounded-full text-sm">
+
+          Hire me →
+
+        </a>
+
+
+        <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 border rounded-full">
+
+          ☰
+
+        </button>
+
+      </div>
+
+    </nav>
+
+
+    <div x-show="mobileMenu" x-cloak class="md:hidden bg-white dark:bg-zinc-950 border-t p-6">
+
+      <div class="flex flex-col gap-4">
+
+        <a href="index.html#services">Services</a>
+
+        <a href="projects.html">Work</a>
+
+        <a href="index.html#about">About</a>
+
+        <a href="blog.html">Blog</a>
+
+        <a href="index.html#contact">Contact</a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <main>
+
+
+    <!-- ARTICLE HEADER -->
+
+    <section class="pt-32 pb-12">
+
+      <div class="max-w-4xl mx-auto px-6">
+
+
+        <a href="blog.html" class="text-sm text-zinc-500 hover:text-accent">
+
+          ← Back to Blog
+
+        </a>
+
+
+        <div class="flex items-center gap-3 mt-8 mb-5">
+
+          <span
+            class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">
+
+            Java Development
+
+          </span>
+
+          <span class="text-xs text-zinc-400">
+
+            March 8, 2025 · 7 min read
+
+          </span>
+
+        </div>
+
+
+        <h1 class="font-display font-bold text-4xl md:text-6xl leading-tight text-zinc-900 dark:text-white">
+
+          Why I ditched heavy CSS frameworks for Tailwind —
+          and what changed
+
+        </h1>
+
+
+        <p class="mt-6 text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-3xl">
+
+          A practical look at how I moved from traditional CSS approaches
+          to utility-first development while building modern Java developer
+          portfolio projects.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- IMAGE -->
+
+    <section class="max-w-5xl mx-auto px-6 mb-12">
+
+      <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1400&q=80" alt="Java development code"
+        class="article-image">
+
+    </section>
+
+
+
+    <!-- ARTICLE -->
+
+    <article class="max-w-3xl mx-auto px-6 pb-20 article-content">
+
+
+      <h2>Introduction</h2>
+
+      <p>
+
+        When I started building web applications and portfolio websites,
+        I initially used traditional CSS stylesheets. As the projects
+        became larger, maintaining different CSS files and reusable
+        styles became difficult.
+
+      </p>
+
+      <p>
+
+        For my recent projects, I started using Tailwind CSS because it
+        allows me to build responsive interfaces directly using utility
+        classes.
+
+      </p>
+
+
+      <blockquote>
+
+        <p>
+
+          "The goal is not to write more CSS. The goal is to build a
+          clean interface with less unnecessary complexity."
+
+        </p>
+
+      </blockquote>
+
+
+      <h2>Why I changed my approach</h2>
+
+      <p>
+
+        Traditional CSS works very well for small websites. However,
+        large projects can quickly contain hundreds of classes,
+        components and style rules.
+
+      </p>
+
+      <p>
+
+        Tailwind provides utility classes that make it easier to control
+        spacing, typography, colors, borders and responsive behaviour
+        directly inside HTML.
+
+      </p>
+
+
+      <h2>What changed in my projects</h2>
+
+
+      <h3>1. Faster UI development</h3>
+
+      <p>
+
+        Instead of creating a separate CSS class for every component,
+        I can use Tailwind utility classes directly in the HTML.
+
+      </p>
+
+
+      <h3>2. Responsive design</h3>
+
+      <p>
+
+        Tailwind provides responsive breakpoints that make it easier to
+        create layouts that work across desktop, tablet and mobile
+        devices.
+
+      </p>
+
+
+      <h3>3. Dark mode</h3>
+
+      <p>
+
+        Dark mode can be implemented using Tailwind's dark variant.
+        This made it much easier to add light and dark themes to my
+        portfolio.
+
+      </p>
+
+
+      <h2>My Java developer workflow</h2>
+
+      <p>
+
+        My main focus is Java development. I use technologies such as
+        Core Java, JDBC, MySQL, Servlets, JSP and web technologies
+        while building projects.
+
+      </p>
+
+      <ul>
+
+        <li>Core Java and OOP concepts</li>
+
+        <li>JDBC and MySQL database integration</li>
+
+        <li>Servlet and JSP applications</li>
+
+        <li>HTML and CSS frontend development</li>
+
+        <li>Tailwind CSS for modern interfaces</li>
+
+      </ul>
+
+
+      <h2>What I learned</h2>
+
+      <p>
+
+        The biggest lesson was that a framework should simplify
+        development rather than make the project more complicated.
+
+      </p>
+
+      <p>
+
+        For my portfolio projects, Tailwind helped me create clean,
+        responsive and modern interfaces while allowing me to focus
+        more on the actual functionality of the application.
+
+      </p>
+
+
+      <h2>Conclusion</h2>
+
+      <p>
+
+        Moving to Tailwind CSS changed the way I approach frontend
+        development. It reduced the amount of custom CSS I needed and
+        made responsive design much easier.
+
+      </p>
+
+      <p>
+
+        As a Java developer, I can now combine backend technologies
+        such as Java, JDBC and MySQL with modern frontend interfaces.
+
+      </p>
+
+
+      <hr class="my-10 border-zinc-200 dark:border-zinc-800">
+
+
+      <div class="text-center">
+
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+
+          Interested in working together?
+
+        </p>
+
+
+        <a href="index.html#contact" class="inline-flex mt-4 bg-accent text-white px-7 py-3 rounded-full font-medium">
+
+          Contact Me →
+
+        </a>
+
+      </div>
+
+
+    </article>
+
+
+    <!-- MORE ARTICLES -->
+
+    <section class="bg-zinc-50 dark:bg-zinc-900/50 py-16">
+
+      <div class="max-w-6xl mx-auto px-6">
+
+        <h2 class="font-display font-bold text-2xl mb-8">
+
+          More Articles
+
+        </h2>
+
+
+        <div class="grid md:grid-cols-3 gap-6">
+
+
+          <div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border">
+
+            <p class="text-xs text-accent mb-3">
+
+              Java
+
+            </p>
+
+            <h3 class="font-display font-bold text-lg mb-3">
+
+              How I Started Learning Java Development
+
+            </h3>
+
+            <a href="blog.html" class="text-accent text-sm">
+
+              Read more →
+
+            </a>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border">
+
+            <p class="text-xs text-accent mb-3">
+
+              JDBC
+
+            </p>
+
+            <h3 class="font-display font-bold text-lg mb-3">
+
+              Understanding JDBC and MySQL
+
+            </h3>
+
+            <a href="blog.html" class="text-accent text-sm">
+
+              Read more →
+
+            </a>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-zinc-900 p-6 rounded-2xl border">
+
+            <p class="text-xs text-accent mb-3">
+
+              Servlet
+
+            </p>
+
+            <h3 class="font-display font-bold text-lg mb-3">
+
+              Building Java Servlet Applications
+
+            </h3>
+
+            <a href="blog.html" class="text-accent text-sm">
+
+              Read more →
+
+            </a>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="py-20">
+
+      <div class="max-w-6xl mx-auto px-6">
+
+        <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-14 text-center">
+
+          <p class="text-accent text-xs uppercase tracking-widest mb-4">
+
+            Let's Work Together
+
+          </p>
+
+          <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-5">
+
+            Have a Java project in mind?
+
+          </h2>
+
+          <p class="text-zinc-400 max-w-lg mx-auto mb-8">
+
+            Let's build a modern and reliable application together.
+
+          </p>
+
+          <a href="index.html#contact" class="inline-flex bg-accent text-white px-8 py-3.5 rounded-full">
+
+            Start a Project →
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- FOOTER -->
+
+  <footer class="border-t border-zinc-100 dark:border-zinc-900">
+
+    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between gap-4">
+
+      <p class="text-sm text-zinc-400">
+
+        © <span id="year"></span> Aniket Kalapure.
+        All rights reserved.
+
+      </p>
+
+      <p class="text-sm text-zinc-400">
+
+        Java Developer · JDBC · MySQL · Servlet · JSP
+
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+
+  </script>
+
+
+</body>
+
+</html>
